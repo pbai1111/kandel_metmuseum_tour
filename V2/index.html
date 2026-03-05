@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>The Neuroscience of Seeing · V2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface-raised: #1c1c1c;
+    --border: #2a2a2a;
+    --text: #e8e4df;
+    --text-muted: #b5a88e;
+    --text-dim: #8a9aaa;
+    --accent-museum: #c9a96e;
+    --accent-kandel: #7a9bb5;
+    --accent-library: #b5897a;
+    --accent-surprise: #8ab59a;
+    --play-bg: rgba(255,255,255,0.06);
+    --play-hover: rgba(255,255,255,0.10);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'DM Sans', -apple-system, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 60px 24px 40px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 2.2rem;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+  }
+
+  .hero .subtitle {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+
+  .hero .meta {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── Stop Navigation ── */
+  .stop-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding: 12px 16px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .stop-nav::-webkit-scrollbar { display: none; }
+
+  .stop-nav a {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.2s;
+    margin-right: 6px;
+    border: 1px solid transparent;
+  }
+
+  .stop-nav a:hover,
+  .stop-nav a.active {
+    color: var(--text);
+    border-color: var(--text-muted);
+    background: var(--surface-raised);
+  }
+
+  /* ── Stop Container ── */
+  .stop {
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── Artwork Image ── */
+  .artwork-image {
+    width: 100%;
+    position: relative;
+    background: var(--surface);
+    overflow: hidden;
+  }
+
+  .artwork-image img {
+    width: 100%;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .artwork-image img.loaded { opacity: 1; }
+
+  .artwork-image .no-image {
+    padding: 60px 24px;
+    text-align: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--text-dim);
+  }
+
+  /* ── Stop Header ── */
+  .stop-header {
+    padding: 24px 20px 16px;
+  }
+
+  .stop-number {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+
+  .stop-header h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.5rem;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+
+  .stop-header .artwork-meta {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+  }
+
+  .stop-header .theme {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── Audio Sections ── */
+  .audio-section {
+    padding: 0 20px 20px;
+  }
+
+  .voice-group {
+    margin-bottom: 16px;
+  }
+
+  .voice-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    padding-left: 2px;
+  }
+
+  .voice-label.museum { color: var(--accent-museum); }
+  .voice-label.kandel { color: var(--accent-kandel); }
+  .voice-label.library { color: var(--accent-library); }
+  .voice-label.surprise { color: var(--accent-surprise); }
+
+  /* ── Audio Row ── */
+  .audio-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 12px;
+    margin-bottom: 4px;
+    border-radius: 8px;
+    background: var(--play-bg);
+    transition: background 0.2s;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .audio-row:active { background: var(--play-hover); }
+  .audio-row.playing { background: var(--play-hover); }
+
+  .play-btn {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 1px;
+  }
+
+  .play-btn svg {
+    width: 12px;
+    height: 12px;
+    fill: var(--text-muted);
+    transition: fill 0.2s;
+  }
+
+  .audio-row.playing .play-btn { border-color: var(--text-muted); }
+  .audio-row.playing .play-btn svg { fill: var(--text); }
+
+  .audio-row.museum .play-btn svg { fill: var(--accent-museum); }
+  .audio-row.kandel .play-btn svg { fill: var(--accent-kandel); }
+  .audio-row.library .play-btn svg { fill: var(--accent-library); }
+  .audio-row.surprise .play-btn svg { fill: var(--accent-surprise); }
+
+  .quote-text {
+    flex: 1;
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.55;
+    color: var(--text);
+  }
+
+  .quote-text .book-intro {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--text-dim);
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .audio-progress {
+    width: 100%;
+    height: 2px;
+    background: var(--border);
+    border-radius: 1px;
+    margin-top: 8px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .audio-row.playing .audio-progress,
+  .audio-row.played .audio-progress { opacity: 1; }
+
+  .audio-progress-bar {
+    height: 100%;
+    width: 0%;
+    border-radius: 1px;
+    transition: width 0.1s linear;
+  }
+
+  .audio-row.museum .audio-progress-bar { background: var(--accent-museum); }
+  .audio-row.kandel .audio-progress-bar { background: var(--accent-kandel); }
+  .audio-row.library .audio-progress-bar { background: var(--accent-library); }
+  .audio-row.surprise .audio-progress-bar { background: var(--accent-surprise); }
+
+  /* ── Walking Directions ── */
+  .directions {
+    padding: 20px 20px 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--surface);
+  }
+
+  .directions-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+  }
+
+  .directions-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--text-dim);
+    fill: none;
+    stroke-width: 1.5;
+  }
+
+  .directions-text {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .directions-text strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* ── Closing ── */
+  .closing {
+    padding: 48px 24px;
+    text-align: center;
+  }
+
+  .closing p {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .closing .pkes-credit {
+    margin-top: 24px;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  /* ── Responsive ── */
+  @media (min-width: 600px) {
+    .hero h1 { font-size: 2.8rem; }
+    .hero .subtitle { font-size: 1.2rem; }
+    .stop-header { padding: 32px 32px 20px; }
+    .stop-header h2 { font-size: 1.8rem; }
+    .audio-section { padding: 0 32px 28px; }
+    .directions { padding: 24px 32px; }
+    .quote-text { font-size: 1.1rem; }
+    .closing p { font-size: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>The Neuroscience<br>of Seeing</h1>
+  <div class="subtitle">A Cross-Cultural Met Tour Inspired by Eric Kandel</div>
+  <div class="meta">10 Stops · ~90 Minutes · The Met Fifth Avenue</div>
+</div>
+
+<!-- Sticky Nav -->
+<nav class="stop-nav" id="stopNav">
+  <a href="#stop1">1</a>
+  <a href="#stop2">2</a>
+  <a href="#stop3">3</a>
+  <a href="#stop4">4</a>
+  <a href="#stop5">5</a>
+  <a href="#stop6">6</a>
+  <a href="#stop7">7</a>
+  <a href="#stop8">8</a>
+  <a href="#stop9">9</a>
+  <a href="#stop10">10</a>
+</nav>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STOP 1: POLLOCK -->
+<!-- ══════════════════════════════════════ -->
+<div class="stop" id="stop1">
+  <div class="artwork-image">
+    <img data-src="screenshot_pics/pollock.png" alt="Pollock, Autumn Rhythm">
+  </div>
+  <div class="stop-header">
+    <div class="stop-number">Stop 1 · Gallery 919 · Floor 2</div>
+    <h2>Autumn Rhythm (Number 30)</h2>
+    <div class="artwork-meta">Jackson Pollock · 1950 · Enamel on canvas · 8 ft. 9 in. × 17 ft. 3 in.</div>
+    <div class="theme">Your brain is not a camera</div>
+  </div>
+  <div class="audio-section">
+    <div class="voice-group">
+      <div class="voice-label museum">The Museum</div>
+      <div class="audio-row museum" data-src="audio/stop01_museum_01.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text">The Met acquired this monumental drip painting by Pollock in 1957, the year following the artist's unexpected death — a sign of how quickly his reinvention of painting was accepted into the canon of modern art. This work's title suggests not only the month in which he painted it — October — but also an alignment with nature's constant flux.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label kandel">Kandel</div>
+      <div class="audio-row kandel" data-src="audio/stop01_kandel_01.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text">This led him to realize that the brain is not simply a camera; it is a creativity machine.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+      <div class="audio-row kandel" data-src="audio/stop01_kandel_02.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text">It takes incomplete information from the outside world and makes it complete.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+      <div class="audio-row kandel" data-src="audio/stop01_kandel_03.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text">Helmholtz realized that the images our eyes transmit to our brain contain poor-quality, incomplete information.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+      <div class="audio-row kandel" data-src="audio/stop01_kandel_04.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text">We do not have direct access to the physical world. It may feel as if we have direct access, but this is an illusion created by our brain.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+      <div class="audio-row kandel" data-src="audio/stop01_kandel_05.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text">The influence of top-down processing on perception convinced Gombrich that there is no 'innocent eye': all visual perception is based on classifying concepts and interpreting visual information.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+      <div class="audio-row kandel" data-src="audio/stop01_kandel_06.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text">Our brains create much of what we see by adding what 'ought' to be there. We only realize that the brain is guessing when it guesses wrongly.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label library">The Library</div>
+      <div class="audio-row library" data-src="audio/stop01_library_01.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text"><span class="book-intro">Seven and a Half Lessons About the Brain · Lisa Feldman Barrett</span>Scientists used to believe that the brain's visual system operated sort of like a camera. Today we know better. Your view of the world is no photograph. It's a construction of your brain that is so fluid and so convincing that it appears to be accurate. But sometimes it's not.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+      <div class="audio-row library" data-src="audio/stop01_library_02.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text"><span class="book-intro">How to Change Your Mind · Michael Pollan</span>Our perceptions of the world offer us not a literal transcription of reality but rather a seamless illusion woven from both the data of our senses and the models in our memories.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+      <div class="audio-row library" data-src="audio/stop01_library_03.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text"><span class="book-intro">How Minds Change · David McRaney</span>The image never seemed ambiguous because consciously people experienced only the output of their processes. The result was a lie told to them by their brains that felt obviously true.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label surprise">The Unexpected</div>
+      <div class="audio-row surprise" data-src="audio/stop01_surprise_01.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text"><span class="book-intro">The Undoing Project · Michael Lewis</span>The stories people told themselves, when the odds were either unknown or unknowable, were naturally more compelling.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="directions">
+  <div class="directions-icon"><svg viewBox="0 0 24 24"><path d="M5 12L19 12M19 12L13 6M19 12L13 18"/></svg></div>
+  <div class="directions-text">Walk to <strong>Gallery 625</strong> · European Paintings, Floor 2</div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STOP 2: VELÁZQUEZ -->
+<!-- ══════════════════════════════════════ -->
+<div class="stop" id="stop2">
+  <div class="artwork-image">
+    <img data-src="https://images.metmuseum.org/CRDImages/ep/web-large/DP-14286-001.jpg" alt="Velázquez, Juan de Pareja">
+  </div>
+  <div class="stop-header">
+    <div class="stop-number">Stop 2 · Gallery 625 · Floor 2</div>
+    <h2>Juan de Pareja</h2>
+    <div class="artwork-meta">Velázquez · 1650 · Oil on canvas</div>
+    <div class="theme">Whose face do we see?</div>
+  </div>
+  <div class="audio-section">
+    <div class="voice-group">
+      <div class="voice-label museum">The Museum</div>
+      <div class="audio-row museum" data-src="audio/stop02_museum_01.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text">Velázquez traveled to Italy with Juan de Pareja, a man of African descent enslaved in his studio for at least two decades. He exhibited this portrait in Rome, where onlookers could not tell the portrait from the living person. The Met paid five and a half million dollars for this painting in 1971 — then a world record.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label kandel">Kandel</div>
+      <div class="audio-row kandel" data-src="audio/stop02_kandel_01.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text">Faces are essential for our social interaction.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+      <div class="audio-row kandel" data-src="audio/stop02_kandel_02.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text">Of all the objects in the world, faces are the most special from a biological point of view.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+      <div class="audio-row kandel" data-src="audio/stop02_kandel_03.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text">As Charles Darwin first pointed out, we recognize each other and even ourselves through our faces.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+      <div class="audio-row kandel" data-src="audio/stop02_kandel_04.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text">Moreover, since we are social animals, we communicate not only our ideas and plans but also our emotions through our faces.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+      <div class="audio-row kandel" data-src="audio/stop02_kandel_05.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text">The ability to form facial expressions and to read those of others is innate, not learned, and our brains treat faces differently from all other objects.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+      <div class="audio-row kandel" data-src="audio/stop02_kandel_06.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text">A powerful link between the face-detection machinery and the areas that control attention, which may account for why faces and portraiture draw our attention so strongly.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label library">The Library</div>
+      <div class="audio-row library" data-src="audio/stop02_library_01.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text"><span class="book-intro">Seven and a Half Lessons About the Brain · Lisa Feldman Barrett</span>When you were a baby, your infant brain was tuned and pruned to detect fine differences in faces so you could tell people apart. But babies are often not exposed to a wide array of facial features. That means the baby's brain does not tune itself to detect those different features.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+      <div class="audio-row library" data-src="audio/stop02_library_02.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text"><span class="book-intro">How Minds Change · David McRaney</span>No matter the message, face-to-face messaging is far and away the most effective channel. We are biologically hardwired to respond to the human face.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label surprise">The Unexpected</div>
+      <div class="audio-row surprise" data-src="audio/stop02_surprise_01.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text"><span class="book-intro">Doppelganger · Naomi Klein</span>The faker is the one hiding behind representation; the real one acts 'beyond words.'</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="directions">
+  <div class="directions-icon"><svg viewBox="0 0 24 24"><path d="M5 12L19 12M19 12L13 6M19 12L13 18"/></svg></div>
+  <div class="directions-text">Walk to <strong>Gallery 614</strong> · Vermeer room, Floor 2</div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STOP 3: VERMEER -->
+<!-- ══════════════════════════════════════ -->
+<div class="stop" id="stop3">
+  <div class="artwork-image">
+    <img data-src="https://images.metmuseum.org/CRDImages/ep/web-large/DP355525.jpg" alt="Vermeer, A Maid Asleep">
+  </div>
+  <div class="stop-header">
+    <div class="stop-number">Stop 3 · Gallery 614 · Floor 2</div>
+    <h2>A Maid Asleep</h2>
+    <div class="artwork-meta">Johannes Vermeer · c. 1656–57 · Oil on canvas</div>
+    <div class="theme">What you add to the picture</div>
+  </div>
+  <div class="audio-section">
+    <div class="voice-group">
+      <div class="voice-label museum">The Museum</div>
+      <div class="audio-row museum" data-src="audio/stop03_museum_01.mp3">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button>
+        <div class="quote-content"><div class="quote-text">Vermeer transfigured an ordinary scene into an investigation of light, color, and texture. X-radiographs indicate that he chose to remove a male figure he had originally included standing in the doorway — heightening the painting's ambiguity.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div>
+      </div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label kandel">Kandel</div>
+      <div class="audio-row kandel" data-src="audio/stop03_kandel_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Kris studied ambiguity in visual perception, which led him to elaborate on Riegl's insight that the viewer completes a work of art.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop03_kandel_02.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Kris argued that every powerful image is inherently ambiguous because it arises from the experiences and conflicts of the artist's life.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop03_kandel_03.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">The viewer responds in terms of his or her own experiences and conflicts.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop03_kandel_04.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">The extent of the viewer's contribution depends on the degree of ambiguity in the image.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop03_kandel_05.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">The beholder's share — the knowledge, experience, and memories a viewer brings to a work of art — can create very different conceptions of an ambiguous image.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop03_kandel_06.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">The more ambiguous a work of art, the more top-down processing we must do to resolve the ambiguities and assign the work meaning, utility, and value.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label library">The Library</div>
+      <div class="audio-row library" data-src="audio/stop03_library_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">The Extended Mind · Annie Murphy Paul</span>Early on in the process, vagueness and ambiguity are more generative than explicitness or definition.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row library" data-src="audio/stop03_library_02.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">What We Can Know · Ian McEwan</span>The poem has served history well by remaining a blank sheet.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label surprise">The Unexpected</div>
+      <div class="audio-row surprise" data-src="audio/stop03_surprise_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">Courage to Change · Al-Anon</span>We don't see the world as it is. We see the world as we are.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="directions">
+  <div class="directions-icon"><svg viewBox="0 0 24 24"><path d="M12 2L12 22M12 22L6 16M12 22L18 16"/></svg></div>
+  <div class="directions-text">Head downstairs to <strong>Gallery 111</strong> · Egyptian Art, Floor 1</div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STOP 4: FAYUM PORTRAIT -->
+<!-- ══════════════════════════════════════ -->
+<div class="stop" id="stop4">
+  <div class="artwork-image">
+    <img data-src="https://images.metmuseum.org/CRDImages/eg/web-large/DP-25887-001.jpg" alt="Portrait of the Boy Eutyches">
+  </div>
+  <div class="stop-header">
+    <div class="stop-number">Stop 4 · Gallery 111 · Floor 1</div>
+    <h2>Portrait of the Boy Eutyches</h2>
+    <div class="artwork-meta">Roman Egypt · c. 100–150 AD · Encaustic on wood</div>
+    <div class="theme">The face machine</div>
+  </div>
+  <div class="audio-section">
+    <div class="voice-group">
+      <div class="voice-label museum">The Museum</div>
+      <div class="audio-row museum" data-src="audio/stop04_museum_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">This portrait was painted nearly two thousand years ago using hot wax mixed with pigment pressed into a wooden panel — a technique called encaustic. It was placed over the face of a mummified body. An inscription identifies the subject as Eutyches, a freedman. These are among the earliest naturalistic portraits to survive from the ancient world — painted to accompany the dead, but staring back at the living with an immediacy that has not dimmed in two millennia.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label kandel">Kandel</div>
+      <div class="audio-row kandel" data-src="audio/stop04_kandel_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">The brain treats faces very differently from other objects.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop04_kandel_02.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">If we turn a bottle of water upside down, we will still recognize it as a bottle of water. But we may not recognize a face when it is upside down.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop04_kandel_03.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">The preference for a particular facial feature depends on its luminance relative to other parts of the face.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop04_kandel_04.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Most of the cells in the middle face patches respond both to contrast and to the shape of facial features.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop04_kandel_05.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Contrast is useful for face detection, and shape is useful for face recognition.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop04_kandel_06.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Face recognition is uniquely sensitive to inversion: not only do we have difficulty recognizing a face upside down, we cannot recognize a change in expression on an inverted face.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label library">The Library</div>
+      <div class="audio-row library" data-src="audio/stop04_library_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">How Emotions Are Made · Lisa Feldman Barrett</span>Some facial movements have meaning, but others do not, and right now, we know precious little about how people figure out which is which, other than that context is somehow crucial.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label surprise">The Unexpected</div>
+      <div class="audio-row surprise" data-src="audio/stop04_surprise_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">Co-Intelligence · Ethan Mollick</span>We seem to be willing to fool ourselves into seeing consciousness everywhere.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="directions">
+  <div class="directions-icon"><svg viewBox="0 0 24 24"><path d="M5 12L19 12M19 12L13 6M19 12L13 18"/></svg></div>
+  <div class="directions-text">Walk to <strong>Gallery 208</strong> · Chinese Buddhist Sculpture, Floor 1</div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STOP 5: GUANYIN -->
+<!-- ══════════════════════════════════════ -->
+<div class="stop" id="stop5">
+  <div class="artwork-image">
+    <img data-src="https://images.metmuseum.org/CRDImages/as/web-large/DP163982.jpg" alt="Water-Moon Guanyin">
+  </div>
+  <div class="stop-header">
+    <div class="stop-number">Stop 5 · Gallery 208 · Floor 1</div>
+    <h2>Water-Moon Guanyin</h2>
+    <div class="artwork-meta">Chinese, Liao dynasty · 11th century · Wood (willow) with traces of pigment</div>
+    <div class="theme">Bodies that speak</div>
+  </div>
+  <div class="audio-section">
+    <div class="voice-group">
+      <div class="voice-label museum">The Museum</div>
+      <div class="audio-row museum" data-src="audio/stop05_museum_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">This bodhisattva, carved from willow wood nearly a thousand years ago, sits in a posture known as royal ease. His craggy seat represents Potalaka, an island paradise in the southern sea. His eyes are downcast and his lips gently pursed, giving the slightest hint of a smile — a figure that occupies a liminal space between the ideal and the real, the divine and the mortal.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label kandel">Kandel</div>
+      <div class="audio-row kandel" data-src="audio/stop05_kandel_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">We actually perceive sculpture differently than we do paintings.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop05_kandel_02.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Sculpture calls into play more powerful tactile and kinesthetic sensations than paintings do. Even if we do not actually touch a sculpture, it elicits from us both a desire to touch it and the sensation of touching it.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop05_kandel_03.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Because of sculpture's three-dimensional form, we have a more visceral reaction to its qualities — delicate or aggressive, flowing or taut, relaxed or dynamic.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop05_kandel_04.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Sculpture achieves this by recruiting several of the brain mechanisms used for social interaction.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop05_kandel_05.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Sculpture also invites tactile sensitivity. It elicits a more pronounced desire to simulate and empathize with a motion being depicted than drawings or paintings do.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop05_kandel_06.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Art is to enable us to experience aspects of life we would not normally experience. One way to do that is through empathy, which is strongly represented in the brain.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label library">The Library</div>
+      <div class="audio-row library" data-src="audio/stop05_library_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">The Extended Mind · Annie Murphy Paul</span>Thinking outside the brain means skillfully engaging the feelings and movements of our bodies, the physical spaces in which we learn, and the minds of the other people around us.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row library" data-src="audio/stop05_library_02.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">The Extended Mind · Annie Murphy Paul</span>Linking movement to the material to be recalled creates a richer and more indelible memory trace in the brain.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label surprise">The Unexpected</div>
+      <div class="audio-row surprise" data-src="audio/stop05_surprise_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">The Body Keeps the Score · Bessel van der Kolk</span>We pick up not only another person's movement but her emotional state and intentions as well. When people are in sync, they tend to stand or sit in similar ways.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="directions">
+  <div class="directions-icon"><svg viewBox="0 0 24 24"><path d="M5 12L19 12M19 12L13 6M19 12L13 18"/></svg></div>
+  <div class="directions-text">Walk to <strong>Gallery 548</strong> · European Sculpture Court, Floor 1</div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STOP 6: HOUDON -->
+<!-- ══════════════════════════════════════ -->
+<div class="stop" id="stop6">
+  <div class="artwork-image">
+    <img data-src="https://images.metmuseum.org/CRDImages/es/web-large/DP162240.jpg" alt="Houdon, Winter">
+  </div>
+  <div class="stop-header">
+    <div class="stop-number">Stop 6 · Gallery 548 · Floor 1</div>
+    <h2>Winter</h2>
+    <div class="artwork-meta">Jean Antoine Houdon · 1787 · Bronze</div>
+    <div class="theme">Touch as truth</div>
+  </div>
+  <div class="audio-section">
+    <div class="voice-group">
+      <div class="voice-label museum">The Museum</div>
+      <div class="audio-row museum" data-src="audio/stop06_museum_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">A frileuse is a woman subject to cold. For this bronze, cast by Houdon himself, he stripped the spiraling composition to its bare essentials. The girl's tremulous flesh is offset by her tightly drawn shawl — elegant but hardly adequate.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label kandel">Kandel</div>
+      <div class="audio-row kandel" data-src="audio/stop06_kandel_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">We are really re-creating the actions of the artist as he created the image. Much as mirror neurons may be used to interpret the meaning of observed behaviors, we can almost see the actions of the artist's hand.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop06_kandel_02.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Helmholtz's remarkable insight is not restricted to perception: top-down processing applies to emotion and empathy as well.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop06_kandel_03.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">This is why we can easily identify and distinguish between the different materials of an object — skin, cloth, wood, or metal — and can do so at a glance.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop06_kandel_04.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">This multisensory representation is the key to how we experience art.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop06_kandel_05.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Both sculpture and painting call into play the default mode network of the brain.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop06_kandel_06.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Surprisingly, this network comes online for the highest aesthetic experiences: it is stimulated when we encounter artworks that resonate with our sense of self.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label library">The Library</div>
+      <div class="audio-row library" data-src="audio/stop06_library_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">The Extended Mind · Annie Murphy Paul</span>When we begin using a tool, our body schema — our sense of the body's shape, size, and position — rapidly expands to encompass it, as if the tool has become an extension of our arm.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row library" data-src="audio/stop06_library_02.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">The Extended Mind · Annie Murphy Paul</span>Whenever possible, we should endeavor to transform information into an artifact, to make data into something real — and then proceed to interact with it, feeling it, tweaking it.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label surprise">The Unexpected</div>
+      <div class="audio-row surprise" data-src="audio/stop06_surprise_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">Creation Lake · Rachel Kushner</span>The earth is turning, for instance: sure, we know that because we've memorized it. But our knowledge of the earth's turn is false; it is knowledge without context, disconnected from the rest of the universe.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="directions">
+  <div class="directions-icon"><svg viewBox="0 0 24 24"><path d="M5 12L19 12M19 12L13 6M19 12L13 18"/></svg></div>
+  <div class="directions-text">Walk to <strong>Galleries 340–345</strong> · Arts of Africa, Floor 1</div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STOP 7: AFRICA MASK -->
+<!-- ══════════════════════════════════════ -->
+<div class="stop" id="stop7">
+  <div class="artwork-image">
+    <img data-src="screenshot_pics/mask.png" alt="African Face Mask">
+  </div>
+  <div class="stop-header">
+    <div class="stop-number">Stop 7 · Gallery 340–345 · Floor 1</div>
+    <h2>Face Mask</h2>
+    <div class="artwork-meta">African Art galleries · Select on-site</div>
+    <div class="theme">When the face doesn't compute</div>
+  </div>
+  <div class="audio-section">
+    <div class="voice-group">
+      <div class="voice-label museum">The Museum</div>
+      <div class="audio-row museum" data-src="audio/stop07_museum_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">This mask transforms the human face into something the brain cannot easily resolve. The features — exaggerated, abstracted, recombined — are deliberate amplifications designed to channel spiritual power through a face that operates outside the rules your visual system expects.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label kandel">Kandel</div>
+      <div class="audio-row kandel" data-src="audio/stop07_kandel_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Darwin points out that our emotions are part of a primitive, virtually universal approach-avoidance system. This system exists across cultures and is conserved throughout evolution.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop07_kandel_02.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Human beings are not rational creatures but are driven by irrational, unconscious mental processes.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop07_kandel_03.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Monkeys, like people, respond more powerfully to cartoons than to real objects because the features in a cartoon are exaggerated.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop07_kandel_04.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">The artist's ability to abstract the essential features of an image and to discard redundant information is similar to what the visual system has evolved to do.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop07_kandel_05.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">The ability to form facial expressions and to read those of others is innate, not learned.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop07_kandel_06.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">By freeing color from its representational function, Kokoschka shifted his art from pictorial accuracy to pure expression.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label library">The Library</div>
+      <div class="audio-row library" data-src="audio/stop07_library_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">Emotional Success · David DeSteno</span>Emotions exist for one purpose: to influence what happens next. They're akin to mental shortcuts.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row library" data-src="audio/stop07_library_02.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">The Body Keeps the Score · Bessel van der Kolk</span>For Darwin, mammalian emotions are fundamentally rooted in biology: they are the indispensable source of motivation to initiate action.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label surprise">The Unexpected</div>
+      <div class="audio-row surprise" data-src="audio/stop07_surprise_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">Emotional Success · David DeSteno</span>If technology and scale allow people to hide their selfishness, all that's needed to change their behavior is to restore face-to-face encounters.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="directions">
+  <div class="directions-icon"><svg viewBox="0 0 24 24"><path d="M12 2L12 22M12 22L6 16M12 22L18 16"/></svg></div>
+  <div class="directions-text">Head upstairs to <strong>Gallery 455</strong> · Islamic Art, Floor 2</div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STOP 8: ISFAHAN MIHRAB -->
+<!-- ══════════════════════════════════════ -->
+<div class="stop" id="stop8">
+  <div class="artwork-image">
+    <img data-src="https://images.metmuseum.org/CRDImages/is/web-large/DP235035.jpg" alt="Mihrab from Isfahan">
+  </div>
+  <div class="stop-header">
+    <div class="stop-number">Stop 8 · Gallery 455 · Floor 2</div>
+    <h2>Mihrab (Prayer Niche)</h2>
+    <div class="artwork-meta">Isfahan, Iran · 1354–55 CE · Mosaic of polychrome glazed tiles</div>
+    <div class="theme">The space between</div>
+  </div>
+  <div class="audio-section">
+    <div class="voice-group">
+      <div class="voice-label museum">The Museum</div>
+      <div class="audio-row museum" data-src="audio/stop08_museum_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">The mihrab indicates the direction of Mecca, which Muslims face when praying. This example, from a theological school in Isfahan, is composed of thousands of small glazed tiles fitted together into intricate patterns and inscriptions. At the center, an inscription reads: "The mosque is the abode of the pious." Eleven feet tall and weighing over two tons.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label kandel">Kandel</div>
+      <div class="audio-row kandel" data-src="audio/stop08_kandel_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">The lack of objects in abstract art requires the viewer to create new personal associations.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop08_kandel_02.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">When we view figurative art, our eye movements are narrowly distributed and object-focused, whereas when we view abstract art, our viewing patterns are more globally distributed.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop08_kandel_03.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Viewing representational art activates areas that respond to faces, places, or objects, whereas abstract art activates areas that respond to features of intermediate complexity, such as simple shape and color.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop08_kandel_04.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Abstract art elicits more psychological distance than representational art and thus evokes a more abstract cognitive state in the beholder.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop08_kandel_05.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Actively construing abstract art transcends direct sensory experience and evokes higher-level representations in the beholder, potentially activating regions of the brain involved in memory.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop08_kandel_06.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Abstract art enables the beholder to traverse mental time and space, resulting in a more distant temporal and spatial placement in the world.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label library">The Library</div>
+      <div class="audio-row library" data-src="audio/stop08_library_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">The Extended Mind · Annie Murphy Paul</span>Early on in the process, vagueness and ambiguity are more generative than explicitness or definition.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row library" data-src="audio/stop08_library_02.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">An Immense World · Ed Yong</span>Color is fundamentally subjective. Our brains use signals from photoreceptors to construct the sensation of color.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label surprise">The Unexpected</div>
+      <div class="audio-row surprise" data-src="audio/stop08_surprise_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">No Death, No Fear · Thich Nhat Hanh</span>Emptiness is not the opposite of existence. It is not nothingness or —</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="directions">
+  <div class="directions-icon"><svg viewBox="0 0 24 24"><path d="M5 12L19 12M19 12L13 6M19 12L13 18"/></svg></div>
+  <div class="directions-text">Walk to the <strong>Lauder Cubist Collection</strong> · Floor 2</div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STOP 9: CUBIST WORKS -->
+<!-- ══════════════════════════════════════ -->
+<div class="stop" id="stop9">
+  <div class="artwork-image">
+    <img data-src="screenshot_pics/cubist.png" alt="Cubist Work">
+  </div>
+  <div class="stop-header">
+    <div class="stop-number">Stop 9 · Lauder Collection · Floor 2</div>
+    <h2>Cubist Works</h2>
+    <div class="artwork-meta">Picasso, Braque, Gris, Léger · The Lauder Collection</div>
+    <div class="theme">Art that breaks your visual system</div>
+  </div>
+  <div class="audio-section">
+    <div class="voice-group">
+      <div class="voice-label museum">The Museum</div>
+      <div class="audio-row museum" data-src="audio/stop09_museum_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Picasso and Braque did not destroy form out of carelessness — they dismantled it systematically, testing how far they could push fragmentation before the image collapsed entirely. Every shard of recognizable shape you find — a guitar string, the curve of a shoulder, the rim of a glass — is a lifeline your brain seizes on, desperate to reconstruct a world from pieces.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label kandel">Kandel</div>
+      <div class="audio-row kandel" data-src="audio/stop09_kandel_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Cubism made the beholder's share the essential subject of art.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop09_kandel_02.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Picasso's intuitive insight into the richness of the unconscious mind encouraged Cubists to show the various aspects of one object in the same painting.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop09_kandel_03.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Cubism poses such an enormous challenge to the beholder because it dares our visual system to reconstruct an image fundamentally different from the kinds of images our brain evolved to reconstruct.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop09_kandel_04.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Cubist art requires the brain to either come up with a new logic of bottom-up processing or to override it altogether by means of top-down processing.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop09_kandel_05.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Our bottom-up processes, which follow built-in rules of perspective and Gestalt, cannot help us, and our top-down mental processes must work extra hard to extract meaning.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop09_kandel_06.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Such works call for new rules of bottom-up processing that often do not exist and have to be supplied by extensive, creative, top-down processing.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label library">The Library</div>
+      <div class="audio-row library" data-src="audio/stop09_library_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">The Undoing Project · Michael Lewis</span>How could a person understand a word well enough to distort it, without first having perceived it in some fashion?</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row library" data-src="audio/stop09_library_02.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">The Undoing Project · Michael Lewis</span>He wanted, in short, to discover the rules of the imagination.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label surprise">The Unexpected</div>
+      <div class="audio-row surprise" data-src="audio/stop09_surprise_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">Principles · Ray Dalio</span>Radical open-mindedness and radical transparency are invaluable for rapid learning and effective change.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="directions">
+  <div class="directions-icon"><svg viewBox="0 0 24 24"><path d="M5 12L19 12M19 12L13 6M19 12L13 18"/></svg></div>
+  <div class="directions-text">Walk to <strong>Gallery 815</strong> · Floor 2 · The final stop</div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STOP 10: LITTLE DANCER -->
+<!-- ══════════════════════════════════════ -->
+<div class="stop" id="stop10">
+  <div class="artwork-image">
+    <img data-src="https://images.metmuseum.org/CRDImages/es/web-large/DP-14939-001.jpg" alt="Degas, The Little Fourteen-Year-Old Dancer">
+  </div>
+  <div class="stop-header">
+    <div class="stop-number">Stop 10 · Gallery 815 · Floor 2</div>
+    <h2>The Little Fourteen-Year-Old Dancer</h2>
+    <div class="artwork-meta">Edgar Degas · c. 1878–81 · Bronze, cotton, silk, wood</div>
+    <div class="theme">Where knowing becomes feeling</div>
+  </div>
+  <div class="audio-section">
+    <div class="voice-group">
+      <div class="voice-label museum">The Museum</div>
+      <div class="audio-row museum" data-src="audio/stop10_museum_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">The pubescent dancer's jaunty, almost defiant pose and real clothing made her uncomfortably lifelike. Huysmans wrote: "The terrible realism of this statuette makes the public distinctly uneasy, all its ideas about sculpture, about cold lifeless whiteness, are demolished." This is Edition A — the first and finest of the posthumous bronze casts.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label kandel">Kandel</div>
+      <div class="audio-row kandel" data-src="audio/stop10_kandel_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">This multisensory representation is the key to how we experience art.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop10_kandel_02.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Both sculpture and painting call into play the default mode network of the brain.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop10_kandel_03.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Surprisingly, this network comes online for the highest aesthetic experiences: it is stimulated when we encounter artworks that resonate with our sense of self.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop10_kandel_04.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">An individual's taste in art is linked to his or her sense of identity.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop10_kandel_05.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">The sculpture is compelling because we identify much more strongly with the bodily presence and intense focus of the boy than with the vague gaze of Leonardo's lady.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row kandel" data-src="audio/stop10_kandel_06.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text">Art, this work tells us, is no longer a record of images bombarding the retina with reflected light; it is the result of intelligent, top-down exploration.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label library">The Library</div>
+      <div class="audio-row library" data-src="audio/stop10_library_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">The Body Keeps the Score · Bessel van der Kolk</span>Our rational, cognitive brain is actually the youngest part of the brain and occupies only about 30 percent of the area inside our skull.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row library" data-src="audio/stop10_library_02.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">Into the Magic Shop · James R. Doty</span>There are far more neural connections that go from the heart to the brain than the other way around.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+      <div class="audio-row library" data-src="audio/stop10_library_03.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">How Emotions Are Made · Lisa Feldman Barrett</span>The human brain is anatomically structured so that no decision or action can be free of interoception and affect, no matter what fiction people tell themselves about how rational they are.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+    <div class="voice-group">
+      <div class="voice-label surprise">The Unexpected</div>
+      <div class="audio-row surprise" data-src="audio/stop10_surprise_01.mp3"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></button><div class="quote-content"><div class="quote-text"><span class="book-intro">The Body Keeps the Score · Bessel van der Kolk</span>Moment-to-moment self-awareness is based primarily in physical sensations, but if we feel safe and are not rushed, we can find words to communicate that experience as well.</div><div class="audio-progress"><div class="audio-progress-bar"></div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Closing -->
+<div class="closing">
+  <p>You've walked through 3,500 years of human art — from six continents, through ten galleries. At every stop, your brain was doing exactly what Kandel describes: completing, simulating, empathizing, constructing. The art hasn't changed since you walked in. But the way you see it has.</p>
+  <div class="pkes-credit">Built with PKES · 215 books · 9,400 highlights · 4 voices</div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- JavaScript -->
+<!-- ══════════════════════════════════════ -->
+<script>
+(function() {
+  // ── Audio Playback ──
+  let currentAudio = null;
+  let currentRow = null;
+  let animFrame = null;
+
+  const playIcon = '<polygon points="8,5 19,12 8,19"/>';
+  const pauseIcon = '<rect x="7" y="5" width="3" height="14"/><rect x="14" y="5" width="3" height="14"/>';
+
+  document.querySelectorAll('.audio-row').forEach(row => {
+    row.addEventListener('click', function(e) {
+      e.preventDefault();
+      const src = this.dataset.src;
+      const btn = this.querySelector('.play-btn svg');
+      const progressBar = this.querySelector('.audio-progress-bar');
+
+      if (currentRow === this && currentAudio && !currentAudio.paused) {
+        currentAudio.pause();
+        btn.innerHTML = playIcon;
+        this.classList.remove('playing');
+        cancelAnimationFrame(animFrame);
+        return;
+      }
+
+      if (currentRow === this && currentAudio && currentAudio.paused) {
+        currentAudio.play();
+        btn.innerHTML = pauseIcon;
+        this.classList.add('playing');
+        updateProgress();
+        return;
+      }
+
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        if (currentRow) {
+          currentRow.classList.remove('playing');
+          currentRow.querySelector('.play-btn svg').innerHTML = playIcon;
+          currentRow.querySelector('.audio-progress-bar').style.width = '0%';
+        }
+        cancelAnimationFrame(animFrame);
+      }
+
+      currentAudio = new Audio(src);
+      currentRow = this;
+
+      currentAudio.addEventListener('canplay', () => {
+        currentAudio.play();
+        btn.innerHTML = pauseIcon;
+        this.classList.add('playing');
+        updateProgress();
+      });
+
+      currentAudio.addEventListener('ended', () => {
+        btn.innerHTML = playIcon;
+        this.classList.remove('playing');
+        this.classList.add('played');
+        progressBar.style.width = '100%';
+        cancelAnimationFrame(animFrame);
+        currentAudio = null;
+        currentRow = null;
+      });
+
+      currentAudio.addEventListener('error', () => {
+        btn.innerHTML = playIcon;
+        this.classList.remove('playing');
+        console.error('Audio failed to load:', src);
+      });
+
+      function updateProgress() {
+        if (currentAudio && !currentAudio.paused) {
+          const pct = (currentAudio.currentTime / currentAudio.duration) * 100;
+          progressBar.style.width = pct + '%';
+          animFrame = requestAnimationFrame(updateProgress);
+        }
+      }
+    });
+  });
+
+  // ── Lazy Load Images ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        img.src = img.dataset.src;
+        img.onload = () => img.classList.add('loaded');
+        observer.unobserve(img);
+      }
+    });
+  }, { rootMargin: '200px' });
+
+  document.querySelectorAll('img[data-src]').forEach(img => observer.observe(img));
+
+  // ── Sticky Nav Active State ──
+  const stops = document.querySelectorAll('.stop');
+  const navLinks = document.querySelectorAll('.stop-nav a');
+
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+        const activeLink = document.querySelector('.stop-nav a.active');
+        if (activeLink) {
+          activeLink.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+        }
+      }
+    });
+  }, { threshold: 0.3 });
+
+  stops.forEach(stop => navObserver.observe(stop));
+})();
+</script>
+</body>
+</html>
